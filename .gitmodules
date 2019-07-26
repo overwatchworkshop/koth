@@ -2,3 +2,7 @@
 	path = OWScript
 	url = git@github.com:adapap/OWScript.git
 	branch = master
+[submodule "src/modules/core"]
+	path = src/modules/core
+	url = https://github.com/overwatchworkshop/ows-module-core.git
+	branch = master
