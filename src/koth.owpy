@@ -1,0 +1,22 @@
+#import "modules/core/ui.owpy"
+#import "modules/core/effects.owpy"
+#import "modules/core/sound.owpy"
+
+Rule "KOTH By Zencep#1489. Join us at discord.gg/5GhnRJy to keep up to date."
+    Event
+        On Global
+
+#import "lib/global/module.owpy"
+#import "lib/player/module.owpy"
+
+Rule "Debug Coordinates"
+    Event
+        On Each Player
+        All
+        All
+    Conditions
+        Event Player.crouching
+        Event Player.interacting
+        Is Firing Primary(Event Player)
+    Actions
+        Msg(Event Player, `You: {}`(Position Of(Event Player)))

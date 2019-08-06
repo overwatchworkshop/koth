@@ -1,0 +1,56 @@
+Rule "Global Setup"
+    Event
+        On Global
+    Actions
+        gvar kingBoundaryLocation = <-95.25, 12.10, -82.04>
+        gvar kingSpawnLocation = <-95.25, 12.10, -82.04>
+        gvar kingMaxRadius = 10
+        gvar kingHero = Hero(Roadhog)
+        gvar currentKing = Slot Of(Random Value In Array(All Players(All Teams)))
+        gvar secondTimer = 0
+
+        Create Effect(Visible_To: Everyone, Type: Ring, Color: Red, Position: kingBoundaryLocation, Radius: kingMaxRadius, Reevaluation: Visible To)
+
+        Wait
+            5s
+            Ignore Condition
+
+        Start Forcing Player To Be Hero
+            Players In Slot
+                currentKing
+                All Teams
+            kingHero
+
+        Teleport
+            Players In Slot
+                currentKing
+                All Teams
+            Nearest Walkable Position(kingSpawnLocation)
+
+Rule "Global Score Manager Loop"
+  Event
+    On Global
+  Conditions
+    Is Game In Progress
+  Actions
+    if gvar secondTimer >= 10:
+      Modify Player Score(Players In Slot(currentKing, All Teams), 1)
+      gvar secondTimer = 0
+    else:
+      gvar secondTimer += 1
+
+    Wait
+      1s
+      Ignore Condition
+
+    Loop If Condition Is True
+
+Rule "Disable Global"
+  Event
+    On Global
+  Conditions
+    Is Game In Progress
+  Actions
+    Set Match Time
+            10000
+    Disable Built-In Game Mode Scoring

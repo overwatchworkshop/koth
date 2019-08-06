@@ -1,0 +1,53 @@
+#import "./loops.owpy"
+
+Rule "Manage Friendly Damage"
+    Event
+        Player Dealt Damage
+        All
+        All
+    Conditions
+        Slot Of(Attacker) != gvar currentKing
+        Slot Of(Victim) != gvar currentKing
+    Actions
+        Heal
+            Victim
+            Null
+            Event Damage
+
+Rule "Current King Killed"
+    Event
+        Player Dealt Final Blow
+        All
+        All
+    Conditions
+        Slot Of(Victim) == gvar currentKing
+    Actions
+        gvar currentKing = Slot Of(Attacker)
+
+        Stop Forcing Player To Be Hero
+            Attacker
+
+        Start Forcing Player To Be Hero
+            Attacker
+            gvar kingHero
+
+        Teleport
+            Attacker
+            Nearest Walkable Position(kingSpawnLocation)
+
+Rule "Stop Forcing Roadhog"
+  Event
+    On Each Player
+    All
+    All
+  Conditions
+    Slot Of(Event Player) != gvar currentKing
+    Hero Of(Event Player) == Hero(Roadhog)
+  Actions
+    Stop Forcing Player To Be Hero
+      Event Player
+      
+    Wait
+      5s
+      Ignore Condition
+      

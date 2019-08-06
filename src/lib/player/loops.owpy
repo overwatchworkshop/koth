@@ -1,0 +1,31 @@
+Rule "Check if King is out of bounds"
+    Event
+        On Each Player
+        All
+        All
+    Conditions
+        Slot Of(Event Player) == gvar currentKing
+        Distance Between(Event Player, gvar kingBoundaryLocation) >= 10
+    Actions
+        Kill
+            Event Player
+            Null
+        
+        Stop Forcing Player To Be Hero
+          Players In Slot
+                currentKing
+                All Teams
+
+        gvar currentKing = Slot Of(Random Value In Array(All Players(All Teams)))
+
+        Start Forcing Player To Be Hero
+            Players In Slot
+                currentKing
+                All Teams
+            kingHero
+
+        Teleport
+            Players In Slot
+                currentKing
+                All Teams
+            Nearest Walkable Position(kingSpawnLocation)
